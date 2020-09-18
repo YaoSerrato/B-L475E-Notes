@@ -234,7 +234,54 @@ The synchronization bits are 2 to 3 bits that are transfered in each frame of da
 \end{center}
 
 \subsubsection{USART parity bit}
-Adding a parity bit is the simplest method of error detection. Parity is simply the number of ones (1) appearing in the binary form of a number. For example, the binary representation of the decimal value 55 is 0b00110111, which has 5 ones.
+Adding a parity bit is the simplest method of error detection. Parity is simply the number of ones (1) appearing in the binary form of a number. For example, the binary representation of the decimal value 55 is 0b00110111, which has 5 ones (an odd number).
+
+\noindent There are two options in parity selection:
+
+\begin{itemize}
+	\item	\textbf{Odd parity}: Parity bit is set to 1 in case the number of ones in the data stream is an even number. Parity bit is left as 0 if the number of ones in the data stream is an odd number.
+	\item	\textbf{Even parity}: Parity bit is set to 1 in case the number of ones in the data stream is an odd number. Parity bit is left as 0 if the number of ones in the data stream is an even number.
+\end{itemize}
+
+\subsubsection{USART transmitter}
+The heart of the transmitter is the Transmit Shift Register where parallel data is converted to serial data. The shift register obtains the data to be transmitted from the Transmit Data Register (TDR). The new data is not loaded to the shift register until the stop bit has been transmitted from the previous packet. As soon as the stop bit is transmitted, the shift register is loaded with new data from TDR.
+
+\begin{center}
+\textit{Image of the USART block diagram.}
+\end{center}
+
+\noindent Typically, a USART transmission would require the following configuration (irrespective of the MCU used):
+
+\begin{itemize}
+	\item	Specify the word length.
+	\item	Specify the number of stop bits.
+	\item	Select the desired baudrate (before this selection the USART peripheral clock value must be known because such frequency puts a limit on the maximum baudrate that can be generated).
+	\item	Enable the Transmit Block.
+	\item	Enable the USART module.
+	\item	If the corresponding flag is ready, write the data to send in the TDR. This step must be repeated for each data packet to be transmitted.
+	\item	After writing the last data packet, wait until the Transmission Complete flag is ready in order to disable the USART module.
+\end{itemize}
+
+\subsubsection{USART receiver}
+During a USART reception the data shifts in into the Receive Shift Register. After the USART receive engine detects the stop bit of the packet frame, the data within the shift register is transferred to the Receive Data Register (RDR). The heart of the receive engine of the USART module is the Receive Shift Register, where the serial data is converted to parallel data (arranged within a register).
+
+\begin{center}
+\textit{Image of the USART block diagram.}
+\end{center}
+
+\noindent Typically, a USART reception would require the following configuration (irrespective of the MCU used):
+
+\begin{itemize}
+	\item	Specify the word length.
+	\item	Specify the number of stop bits.
+	\item	Select the desired baudrate (before this selection the USART peripheral clock value must be known because such frequency puts a limit on the maximum baudrate that can be generated).
+	\item	Enable the Receiver Block.
+	\item	Enable the USART module.
+	\item	Once the Receiver Block is enebaled, it will start searching for the start bit of an incoming data frame. When a character is received, the data can be read from the RDR only after the corresponding indicative flag is ready. This flag would indicate that a complete frame has been received and can now be read.
+\end{itemize}
+
+\noindent There are 2 oversampling options given in the STM32 MCUs: 1) Oversampling by 8 and 2) oversampling by 16. When oversampling by 8 is used, it samples the RX line 8 times the UART Peripheral clock frequency; and when the oversampling by 16 is used, it samples the RX line 16 times the periphral clock frequency to find out the start bit.
+
 
 \mainmatter
 
