@@ -283,6 +283,37 @@ During a USART reception the data shifts in into the Receive Shift Register. Aft
 \noindent There are 2 oversampling options given in the STM32 MCUs: 1) Oversampling by 8 and 2) oversampling by 16. When oversampling by 8 is used, it samples the RX line 8 times the UART Peripheral clock frequency; and when the oversampling by 16 is used, it samples the RX line 16 times the periphral clock frequency to find out the start bit.
 
 
+\chapter{I2C driver}
+I2C is a protocol used for serial data communication between integrated circuits which are physically very close to each other. Companies have gathered to create an specification for I2C. The details about the protocol such as how data should be sent, how data should be received, how hand shaking should happen between sender and receiver, error handling, etc., are more complex than SPI protocol.
+
+\subsubsection{Differences between SPI and I2C}
+These are some of the differences between I2C and SPI protocols:
+
+\begin{itemize}
+	\item	\textbf{Specification}: I2C has an internationally standardized specification, whereas SPI does not have such dedicated global specification, although Texas Instruments and Motorola have their own specifications for SPI.
+	\item	\textbf{Multi-master capability}: I2C protocol is multi-master capable, whereas SPI has no native guidelines for achieving this. However, silicon manufactures have their own implementations for achieving SPI multi-master capabilities by software. In case of I2C, multi-master capabilities are handled by hardware.
+	\item	\textbf{ACK - Acknowledgement}: I2C hardware automatically acknowledges every byte received. SPI peripheral does not support automatic acknowledgement of data.
+	\item	\textbf{Pins}: I2C needs just 2 pins for the communication between master and slave. On the other hand, SPI needs 4 pins and it could need more if more slaves are involved.
+	\item	\textbf{Addressing}: I2C master talks to slaves based on slave addresses, whereas in SPI there is a dedicated pin for each slave, used for its selection.
+	\item	\textbf{Communication mode}: I2C is half duplex, whereas SPI is full duplex. Id est, in SPI protocol the devices can send and receive information simultaneously, whereas in I2C protocol the data is sent or received, but not both at the same time.
+	\item	\textbf{Speed}: I2C maximum speed is $4 [MHz]$ in case ultra speed mode is used. In contrast, SPI peripheral can reach a speed up to $Fclk/2$, where $Fclk$ is the clock speed. So, if the clock speed is $20 [MHz]$ then SPI would be running up to $10 [MHz]$.
+	\item	\textbf{Slave control over serial clock}: In I2C communication the slave can make the master wait by holding the clock line to ground, thanks to the clock stretching feature of I2C. On the other hand, SPI peripheral has no control over the clock line. Programmers need to use their own tricks to overcome this situation.
+	\item	\textbf{Data rate}: this value, which is the number of bits transferred from sender to receiver in 1 second, is very much lower in I2C compared to SPI.
+\end{itemize}
+
+\subsubsection{Definition of I2C bus terminology}
+These are common terms used when talking bout I2C protocol:
+
+\begin{itemize}
+	\item	\textbf{Transmitter}: the device which sends the data to the bus.
+	\item	\textbf{Receiver}: the device which receives data from the bus.
+	\item	\textbf{Master}: the device which initiates a transfer, generates clock signals and terminates a transfer.
+	\item	\textbf{Slave}: the device addressed by a master.
+	\item	\textbf{Multi-master}: more than one master can attempt to control the bus at the same time without corrupting the message.
+	\item	\textbf{Arbitration}: procedure to ensure that, if more than one master simultaneously tries to control the bus, only one is allowed to do so and the winning message is not corrupted.
+	\item	\textbf{Synchronization}: procedure to synchronize the clock signals of two or more devices.
+\end{itemize}
+
 \mainmatter
 
 % \chapter{How to Build a Timemachine}
