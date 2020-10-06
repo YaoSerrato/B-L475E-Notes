@@ -134,3 +134,34 @@ These are common terms used when talking bout I2C protocol:
 	\item	\textbf{Arbitration}: procedure to ensure that, if more than one master simultaneously tries to control the bus, only one is allowed to do so and the winning message is not corrupted.
 	\item	\textbf{Synchronization}: procedure to synchronize the clock signals of two or more devices.
 \end{itemize}
+
+\subsubsection{I2C signals SDA/SCL and I2C modes}
+Both SDA and SCL are bidirectional lines connected to a positive supply voltage via pull-up resistors. When the bus is free, both lines are held at HIGH. The output stages of devices connected to the bus must have an open-drain or open-collector configuration. The bus capacitance limits the number of interfaces connected to the bus.
+
+\noindent There are four modes of speed for I2C peripheral.
+
+\begin{itemize}
+	\item		\textbf{Standard mode}: up to 100 Kbits/sec. Devices working in standard mode are not upwards compatible: they can not communicate with devices of Fast mode or above.
+	\item		\textbf{Fast mode}:	up to 400 Kbits/sec. Fast mode devices are downwards compatible and can communicate with Standard mode devices, but they are not upwards compatible with Fast mode + devices or above.
+	\item		\textbf{Fast mode +}:		up to 1 Mbits/sec.
+	\item		\textbf{High speed mode}:	up to 3.4 Mbits/sec.
+\end{itemize}
+
+\subsubsection{Basics of I2C protocol}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
