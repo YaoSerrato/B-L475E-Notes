@@ -1,1 +1,28 @@
 \chapter{Bootloader}
+
+\subsubsection{Introduction}
+
+A bootloader is a piece of software stored in the MCU flash memory or ROM memory and acts as an application loader, as well as a mechanism to update the application whenever required. For example, in the case of an Arduino Uno board, the bootloader is the element in charge of loading the Arduino sketch from the IDE to the flash memory of the ATmega328P. The bootloader in this case acts immediately after a reset. This is actually a clear example of what is commonly referred as \textbf{In Application Programming (IAP)}.
+
+\noindent Another example are the ST development kit boards. The STM32 MCUs in these boards also have an on-chip bootloader. The difference from other designs is that, in the ST boards, the bootloader does not execute by default after a system reseat. This is configurable through a set of pins dedicated for this (named BOOT pins). However, the function is the same: to upload/update the firmware of the MCU (IAP).
+
+\noindent ST boards are characterized by having an ICPD (In-Circuit Debugger/Programmer). Whenever new firmware is to be loaded to the MCU, it is done through the ICDP, without needing any interference from the bootloader. For the ST boards, the ICDP is known as ST-Link. Also, as its name states, the ICDP is used for debugging the code running in the MCU. Since the Arduino does not have any ICDP, then it needs to use the bootloader to flash new firmware to the MCU.
+
+\subsubsection{MCU memory organization}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
